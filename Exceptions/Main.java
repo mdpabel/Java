@@ -1,14 +1,18 @@
 package Exceptions;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 public class Main {
   public static void main(String[] args) {
+    var acc = new Account();
+
+    Math.pow(1, 2);
+    
     try {
-      var file = new FileReader("file.txt");
-    } catch (FileNotFoundException e) {
-      System.out.println(e.getMessage());
+      acc.withdraw(100);
+    } catch (AccountException e) {
+      var causedBy = e.getCause();
+      System.out.println(causedBy.getMessage());
     }
+    
   }
 }
