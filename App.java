@@ -1,4 +1,5 @@
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
@@ -11,9 +12,13 @@ public class App {
     queue.add(10);
     queue.add(20);
 
-
     System.out.println(queue);
 
+    ArrayList<Integer> list = new ArrayList<>();
+
+    list.add(null);
+    list.size()
+
   }
- 
+
 }
