@@ -12,69 +12,97 @@ public class BST {
   }
 
   private Node root;
-  
-  public void insert(int value) {
-    var node = new Node(value);
 
+  public void insert(int value) {
     if (root == null) {
       root = new Node(value);
       return;
     }
 
-    var parent = getParent(value);
-
-    if (parent.value > value) {
-      parent.left = node;
-    } else {
-      parent.right = node;
-    }
-
-  }
-
-
-  private Node getParent(int value) {
-    var node = root;
-    Node parent = root;
-
-    while (node != null) {
-      parent = node;
-      if (node.value > value) {
-        node = node.left;
+    Node currentNode = root;
+    while (true) {
+      if (currentNode.value > value) {
+        if (currentNode.left == null) {
+          currentNode.left = new Node(value);
+          break;
+        } else {
+          currentNode = currentNode.left;
+        }
       } else {
-        node = node.right;
+        if (currentNode.right == null) {
+          currentNode.right = new Node(value);
+          break;
+        } else {
+          currentNode = currentNode.right;
+        }
       }
     }
-
-    return parent;
   }
-  
+
+  public boolean contains(int value) {
+    Node currentNode = root;
+    while (currentNode != null) {
+      if (currentNode.value > value) {
+        currentNode = currentNode.left;
+      } else if (currentNode.value < value) {
+        currentNode = currentNode.right;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void remove(int value) {
+    root = remove(root, value);
+  }
+
+  private Node remove(Node currentNode, int value) {
+    if (currentNode == null) {
+      return null;
+    }
+
+    if (value < currentNode.value) {
+      currentNode.left = remove(currentNode.left, value);
+    } else if (value > currentNode.value) {
+      currentNode.right = remove(currentNode.right, value);
+    } else {
+      if (currentNode.left != null && currentNode.right != null) {
+        currentNode.value = getMinValue(currentNode.right);
+        currentNode.right = remove(currentNode.right, currentNode.value);
+      } else if (currentNode.left != null) {
+        currentNode = currentNode.left;
+      } else if (currentNode.right != null) {
+        currentNode = currentNode.right;
+      } else {
+        currentNode = null;
+      }
+    }
+    return currentNode;
+  }
+
+  private int getMinValue(Node node) {
+    int minValue = node.value;
+    while (node.left != null) {
+      minValue = node.left.value;
+      node = node.left;
+    }
+    return minValue;
+  }
 
   @Override
-    public String toString() {
-        return inorderTraversal(root);
-    }
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    inorderTraversal(root, sb, 0);
+    return sb.toString();
+  }
 
-    private String inorderTraversal(Node node) {
-        StringBuilder sb = new StringBuilder();
-        inorderTraversal(node, sb, 0);
-        return sb.toString();
+  private void inorderTraversal(Node node, StringBuilder sb, int depth) {
+    if (node != null) {
+      inorderTraversal(node.right, sb, depth + 1);
+      sb.append("  ".repeat(depth)).append(node.value).append("\n");
+      inorderTraversal(node.left, sb, depth + 1);
     }
-
-    private void inorderTraversal(Node node, StringBuilder sb, int depth) {
-        if (node != null) {
-            inorderTraversal(node.right, sb, depth + 1);
-            sb.append("  ".repeat(depth)).append(node.value).append("\n");
-            inorderTraversal(node.left, sb, depth + 1);
-        }
-    }
+  }
 
 }
-
-
-/*
-     5
-  2     7
-1   3  6   8
-
-2
- */

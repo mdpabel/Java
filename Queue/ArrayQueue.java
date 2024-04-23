@@ -42,9 +42,9 @@ public class ArrayQueue {
     return index % items.length;
   }
 
-  // peek 
+  // peek
   public int peek() {
-     if (count == 0) {
+    if (count == 0) {
       throw new IllegalStateException();
     }
     int index = getIndex(front);
@@ -56,16 +56,10 @@ public class ArrayQueue {
     return count == 0;
   }
 
-  // reverse first k elements
-
   public void reverse(int k) {
-    // 10, 20, 30, 40, 50   3 
-    // 10, 20, 30
-    // 40, 50 
-    // 30, 20, 10, 40, 50
     Stack<Integer> stack1 = new Stack<>();
     Stack<Integer> stack2 = new Stack<>();
-    
+
     for (int i = 0; i < k; i++) {
       if (i < k) {
         stack1.push(dequeue());
@@ -73,15 +67,17 @@ public class ArrayQueue {
     }
 
     while (!isEmpty()) {
-        stack2.push(dequeue());
+      stack2.push(dequeue());
     }
 
     while (!stack1.isEmpty()) {
-      enqueue(stack1.pop());;
+      enqueue(stack1.pop());
+      ;
     }
-    
+
     while (!stack2.isEmpty()) {
-      enqueue(stack2.pop());;
+      enqueue(stack2.pop());
+      ;
     }
 
   }
